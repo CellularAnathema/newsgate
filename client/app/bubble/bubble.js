@@ -104,7 +104,7 @@ angular.module('newsgate.bubble', [])
              relevance = 0.6;
            }
           //  return scale(relevance) + 4;
-          return scale(relevance) +4;
+          return scale(relevance) + 4;
          }));
 
         // reset position every interval during simulation
