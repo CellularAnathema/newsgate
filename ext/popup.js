@@ -41,29 +41,58 @@ function getCurrentTabUrl(callback) {
 };
 
 
+//scrapper for content
+const contentScrapper = function() {
+  return $('p').toArray().map(p => p.innerText);
+};
+
+const styleRegexInContent = function(regex, cssProperty, cssValue) {
+
+};
+
 //assumptions:
 //1 - all the content is in paragraphs
 //2 - paragraph elements have no incomplete sentences (a sentence can not be in two paragrahs)
 
-//interface: string, string, string
+//interface: string | regex, string, string
+//str could be /\d+/ for testing numbers. 
+
 const styleStringInContent = function(str, cssProperty, cssValue) {
   const marker = '^';
   //TODO abstract the function below
   //scrap all the content
+
+  //item should be a html element
+  var markerFunction = function(item, str, startIndex) {
+    var htmlElementToInjectBegin = '<span class="highlightItem">';
+    var htmlElementToInjectEnd = '</span>';
+    item.innerText = item.innerText.slice(0,startIndex) 
+    + marker + str + marker + item.innerText.slice(startIndex + str.length);
+    item.innerHTML = item.innerHTML.replace('^', htmlElementToInjectBegin);
+    item.innerHTML = item.innerHTML.replace('^', htmlElementToInjectEnd);
+  };
+
   $('p').toArray().forEach(item => {
     var htmlElementToInjectBegin = '<span class="highlightItem">';
     var htmlElementToInjectEnd = '</span>';
-    var textContent = item.innerText;
-    var startIndex = textContent.indexOf(str);
-    if(startIndex !== -1) {
-      item.innerText = item.innerText.slice(0,startIndex) 
-      + marker + str + marker + item.innerText.slice(startIndex + str.length);
-      item.innerHTML = item.innerHTML.replace('^', htmlElementToInjectBegin);
-      item.innerHTML = item.innerHTML.replace('^', htmlElementToInjectEnd);
+    var textContent = item.innerText;    
+    if(typeof str ==='string') {
+      var startIndex = textContent.indexOf(str);
+      if(startIndex !== -1) {
+        item.innerText = item.innerText.slice(0,startIndex) 
+        + marker + str + marker + item.innerText.slice(startIndex + str.length);
+        item.innerHTML = item.innerHTML.replace('^', htmlElementToInjectBegin);
+        item.innerHTML = item.innerHTML.replace('^', htmlElementToInjectEnd);
+      }
+    } else {
+      var facts = textContent.split('.').filter(sentence => str.test(sentence));
+      facts.forEach(fact => markerFunction(item, fact, item.innerText.indexOf(fact)));
     }
   });
   $('.highlightItem').css(cssProperty,cssValue);
 };
+
+
 
 getCurrentTabUrl(function(tabUrl) {
   var urlData = $.ajax({
