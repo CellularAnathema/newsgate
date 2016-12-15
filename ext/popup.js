@@ -10,7 +10,7 @@
  */
 
 
-function getCurrentTabUrl(callback) {
+function getCurrentTabUrl(callback) { 
   // Query filter to be passed to chrome.tabs.query - see
   // https://developer.chrome.com/extensions/tabs#method-query
   var queryInfo = {
@@ -40,6 +40,30 @@ function getCurrentTabUrl(callback) {
   });
 };
 
+
+//assumptions:
+//1 - all the content is in paragraphs
+//2 - paragraph elements have no incomplete sentences (a sentence can not be in two paragrahs)
+
+//interface: string, string, string
+const styleStringInContent = function(str, cssProperty, cssValue) {
+  const marker = '^';
+  //TODO abstract the function below
+  //scrap all the content
+  $('p').toArray().forEach(item => {
+    var htmlElementToInjectBegin = '<span class="highlightItem">';
+    var htmlElementToInjectEnd = '</span>';
+    var textContent = item.innerText;
+    var startIndex = textContent.indexOf(str);
+    if(startIndex !== -1) {
+      item.innerText = item.innerText.slice(0,startIndex) 
+      + marker + str + marker + item.innerText.slice(startIndex + str.length);
+      item.innerHTML = item.innerHTML.replace('^', htmlElementToInjectBegin);
+      item.innerHTML = item.innerHTML.replace('^', htmlElementToInjectEnd);
+    }
+  });
+  $('.highlightItem').css(cssProperty,cssValue);
+};
 
 getCurrentTabUrl(function(tabUrl) {
   var urlData = $.ajax({
