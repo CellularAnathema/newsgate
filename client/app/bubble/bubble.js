@@ -23,8 +23,8 @@ angular.module('newsgate.bubble', [])
       // define scale
       const minimum = 0.5;
       var scale = d3.scaleSqrt() // automatically converts to scale
-        .domain([minimum, 1]) // range of input data
-        .range([30, 120]); // range of output data
+        .domain([0.6, 1]) // range of input data
+        .range([40, 120]); // range of output data
 
       // create svg
       var svg = d3.select(element[0]).append("svg")
@@ -55,6 +55,7 @@ angular.module('newsgate.bubble', [])
           .remove();
 
         // generate new bubbles
+        //var lowest = data[11].relevance;
         var allBubbles = svg.selectAll('circles').data(data)
         .enter().append("circle")
           .attr("class", ".keyword")
@@ -63,6 +64,8 @@ angular.module('newsgate.bubble', [])
             if (relevance < minimum) {
               relevance = minimum;
             }
+            //return scale(relevance);
+            console.log('d', d);
             return scale(relevance);
           })
           .attr('stroke', 'steelblue')
@@ -101,6 +104,10 @@ angular.module('newsgate.bubble', [])
            if (relevance < minimum) {
              relevance = minimum;
            }
+<<<<<<< HEAD
+          //  return scale(relevance) + 4;
+=======
+>>>>>>> ea29c90b1483b9275aea048c7e49502d5b5aca8f
           return scale(relevance) +4;
          }));
 
