@@ -21,6 +21,7 @@ For more information, see: https://newsapi.aylien.com/docs/endpoints/related_sto
 
 
 ////////////////////////////////////////////////////////////
+
 var Promise = require('bluebird');
 var aylienNewsApi = require('aylien-news-api');
 var aylienNonpromise = new aylienNewsApi.DefaultApi();
@@ -32,7 +33,6 @@ var aylienGoop = require('./aylien_api_key.js');
 //   application_key: 'YOUR_APP_KEY'
 // }
 
-
 // Configure API key authorization: app_id
 var app_id = aylienNonpromise.apiClient.authentications['app_id'];
 app_id.apiKey = aylienGoop.application_id;
@@ -43,7 +43,6 @@ var app_key = aylienNonpromise.apiClient.authentications['app_key'];
 app_key.apiKey = aylienGoop.application_key;
 
 var aylienArticles = Promise.promisifyAll(aylienNonpromise);
-
 
 module.exports.findRelatedArticles = function(req, res, next) {
 
@@ -86,9 +85,6 @@ module.exports.findRelatedArticles = function(req, res, next) {
       next();
     });
   }
-
-
-
 };
 
 

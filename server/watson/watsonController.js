@@ -51,7 +51,7 @@ module.exports.getTitle = function(req, res, next) {
 module.exports.getKeywords = function(req, res, next) {
   var parameters = {
     url: req.body.url,
-    maxRetrieve: 2
+    maxRetrieve: 5
   };
 
   alchemy_language.keywords(parameters, function (err, response) {
@@ -71,6 +71,7 @@ module.exports.getEntities = function(req, res, next) {
     url: req.body.url,
     maxRetrieve: 5,
     // sourceText: 'cleaned_or_raw'
+
   };
 
   alchemy_language.entities(parameters, function (err, response) {
@@ -80,6 +81,7 @@ module.exports.getEntities = function(req, res, next) {
       res.compoundContent = res.compoundContent || {};
       res.compoundContent['entities'] = response.entities;
       // console.log(res.compoundContent['entities'], 'inside entities!');
+
     }
     next();
   });
@@ -89,7 +91,6 @@ module.exports.getEntities = function(req, res, next) {
 module.exports.getRelated = function(req, res, next) {
   console.log('inside get related');
   var params = {
-
     start: 'now-1M',
     end: 'now',
     count: 5,
@@ -104,6 +105,7 @@ module.exports.getRelated = function(req, res, next) {
       res.compoundContent = res.compoundContent || {};
       res.compoundContent['relatedArticles'] = response;
       console.log('gotpast res');
+
     }
     next();
   });
