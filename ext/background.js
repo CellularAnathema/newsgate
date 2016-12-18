@@ -1,5 +1,4 @@
 
-console.log(1212);
 // The following waits for a connection from the 
 // extension in order to make a reverse connection. 
 
