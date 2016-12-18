@@ -23,8 +23,8 @@ angular.module('newsgate.bubble', [])
       // define scale
       const minimum = 0.5;
       var scale = d3.scaleSqrt() // automatically converts to scale
-        .domain([minimum, 1]) // range of input data
-        .range([30, 120]); // range of output data
+        .domain([0.6, 1]) // range of input data
+        .range([40, 120]); // range of output data
 
       // create svg
       var svg = d3.select(element[0]).append("svg")
