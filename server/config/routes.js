@@ -29,7 +29,7 @@ module.exports = function (app, express) {
   app.post('/api/ext', newsController.passExtensionData, 
     newsController.getFleschScore,
     newsController.isFakeNews,
-    inidcoController.getPolitics,
+    indicoController.getPolitics,
     googleLanguage.analyzeSentiment, 
     watsonController.getEmotions, 
     function(req, res, next) {
